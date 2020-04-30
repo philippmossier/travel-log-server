@@ -13,13 +13,19 @@ const app = express();
 
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
-});
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Database connectet!'))
+  .catch((err) => console.log(err));
+
 
 app.use(morgan('common'));
 app.use(helmet());
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
 }));
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json({
